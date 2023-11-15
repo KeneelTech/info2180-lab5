@@ -43,7 +43,17 @@ body {
     border-radius: 5px;
   }
   
-  #controls button {
+  #controls #lookup {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: lightgreen;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #controls #Cities {
     padding: 10px 20px;
     font-size: 1em;
     background-color: #3498db;

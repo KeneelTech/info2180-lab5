@@ -15,4 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Error:', error));
     });
+
+    document.getElementById('Cities').addEventListener('click', function() {
+        const country = document.querySelector('#country').value;
+        const url = `http://localhost/info2180-lab5/world.php?country=${encodeURIComponent(country)}&lookup=cities`;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                result.innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+    });
 });

@@ -23,9 +23,40 @@ if (isset($_GET['country'])) {
   $results = [];
 }
 
+$lookupType = $_GET['lookup'] ?? null;
+
+
+if ($lookupType === 'cities') {
+    $stmt = $conn->prepare("SELECT cities.name, cities.district, cities.population
+                            FROM cities
+                            JOIN countries ON cities.country_code = countries.code
+                            WHERE countries.name LIKE :country");
+    $stmt->execute(['country' => "%$country%"]);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $stmt = $conn->prepare("SELECT * FROM countries WHERE name LIKE :country");
+    
+}
+
+
 ?>
 
 <table>
+    <?php if ($lookupType === 'cities'): ?>
+        <tr>
+            <th>Name</th>
+            <th>District</th>
+            <th>Population</th>
+        </tr>
+        <?php foreach ($results as $row): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['name']) ?></td>
+                <td><?= htmlspecialchars($row['district']) ?></td>
+                <td><?= htmlspecialchars($row['population']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+      <table>
   <tr>
     <th>Name</th>
     <th>Continent</th>
@@ -41,3 +72,7 @@ if (isset($_GET['country'])) {
     </tr>
   <?php endforeach; ?>
 </table>
+    <?php endif; ?>
+</table>
+
+
